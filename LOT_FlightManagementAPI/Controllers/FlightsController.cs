@@ -1,4 +1,5 @@
 using LOT_FlightManagementAPI.Data;
+using LOT_FlightManagementAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,24 +16,33 @@ namespace LOT_FlightManagementAPI.Controllers
             _context = context;
         }
         
-        // GET: api/<FlightsController>
+        // Get all flights
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Flight> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _context.Flights;
         }
 
-        // GET api/<FlightsController>/5
+        // Get a specific flight by its ID
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<Flight>> Get(UInt16 id)
         {
-            return "value";
+            var flight = await _context.Flights.FindAsync(id);
+            if (flight == null)
+            {
+                return NotFound();
+            }
+            return flight;
         }
 
-        // POST api/<FlightsController>
+        // Add a new flight
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<Flight>> Post([FromBody] Flight flight)
         {
+            _context.Flights.Add(flight);
+            await _context.SaveChangesAsync();
+            
+            return CreatedAtAction(nameof(Get), new {id = flight.FlightId}, flight);
         }
 
         // PUT api/<FlightsController>/5
