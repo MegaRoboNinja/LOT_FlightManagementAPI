@@ -1,3 +1,4 @@
+using LOT_FlightManagementAPI.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,18 +8,12 @@ namespace LOT_FlightManagementAPI.Controllers
     [ApiController]
     public class FlightsController : ControllerBase
     {
-        // private readonly ILogger<FlightsController> _logger;
-        //
-        // public FlightsController(ILogger<FlightsController> logger)
-        // {
-        //     _logger = logger;
-        // }
-        //
-        // public IActionResult Log(string info)
-        // {
-        //     _logger.LogInformation(info);
-        //     return Ok(info);
-        // }
+        private readonly FlightContext _context;
+
+        public FlightsController(FlightContext context)
+        {
+            _context = context;
+        }
         
         // GET: api/<FlightsController>
         [HttpGet]
