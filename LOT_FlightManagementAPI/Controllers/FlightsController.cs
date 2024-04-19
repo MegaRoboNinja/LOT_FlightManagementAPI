@@ -10,25 +10,25 @@ namespace LOT_FlightManagementAPI.Controllers
     [ApiController]
     public class FlightsController : ControllerBase
     {
-        private readonly FlightContext _context;
+        private readonly FlightContext _database;
 
-        public FlightsController(FlightContext context)
+        public FlightsController(FlightContext database)
         {
-            _context = context;
+            _database = database;
         }
         
         // Get all flights
         [HttpGet]
         public IEnumerable<Flight> Get()
         {
-            return _context.Flights;
+            return _database.Flights;
         }
 
         // Get a specific flight by its ID
         [HttpGet("{id}")]
         public async Task<ActionResult<Flight>> Get(ushort id)
         {
-            var flight = await _context.Flights.FindAsync(id);
+            var flight = await _database.Flights.FindAsync(id);
             if (flight == null)
             {
                 return NotFound();
@@ -40,8 +40,8 @@ namespace LOT_FlightManagementAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Flight>> Post([FromBody] Flight flight)
         {
-            _context.Flights.Add(flight);
-            await _context.SaveChangesAsync();
+            _database.Flights.Add(flight);
+            await _database.SaveChangesAsync();
             
             return CreatedAtAction(nameof(Get), new {id = flight.FlightId}, flight);
         }
@@ -59,18 +59,18 @@ namespace LOT_FlightManagementAPI.Controllers
             if (FlightExists(id))
                 return NotFound();
             
-            // Mark flight as modified
-            // (tells Entity Framework to update after async SaveChanges)
-            _context.Entry(modifiedFlight).State = EntityState.Modified;
+            // Modify the flight (something I found on stack)
+            _database.Entry(await _database.Flights.FirstOrDefaultAsync
+                (x => x.FlightId == id)).CurrentValues.SetValues(modifiedFlight);
 
-            // asynchronously save the changes
-            await _context.SaveChangesAsync();
+            // save the changes
+            await _database.SaveChangesAsync();
 
             return Ok();
         }
-        private bool FlightExists(ushort id) => _context.Flights.Any(f => f.FlightId == id);
+        private bool FlightExists(ushort id) => _database.Flights.Any(f => f.FlightId == id);
 
-        // DELETE api/<FlightsController>/5
+        // Delete a flight from the database
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
