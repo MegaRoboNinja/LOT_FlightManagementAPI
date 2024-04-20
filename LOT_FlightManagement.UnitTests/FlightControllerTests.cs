@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace LOT_FlightManagement.UnitTests;
 
 // I decided to keep all the tests in a single file
-// because they share a one time setup
+// because they share a one time setup.
+// Hope it's not to long...
 public class Tests
 {
     private FlightsController controller;

@@ -1,6 +1,2 @@
 @LOT_FlightManagementAPI_HostAddress = http://localhost:5024
-
-GET {{LOT_FlightManagementAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
 ###

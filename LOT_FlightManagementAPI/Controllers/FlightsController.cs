@@ -87,7 +87,9 @@ namespace LOT_FlightManagementAPI.Controllers
             return Ok();
         }
         
-        /// <summary>Check if the database has a record of a flight of a given ID.</summary>
-        public bool FlightExists(ushort id) => _database.Flights.Any(f => f.FlightId == id);
+        /// <summary>Check if the database has a record of a flight of a given ID.
+        /// It needs to be internal because the Swagger/OpenAPI confuse it for
+        /// a Http endpoint.</summary>
+        internal bool FlightExists(ushort id) => _database.Flights.Any(f => f.FlightId == id);
     }
 }
