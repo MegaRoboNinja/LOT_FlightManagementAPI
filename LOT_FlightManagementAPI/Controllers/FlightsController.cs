@@ -1,6 +1,7 @@
 using LOT_FlightManagementAPI.Data;
 using LOT_FlightManagementAPI.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,14 +18,14 @@ namespace LOT_FlightManagementAPI.Controllers
             _database = database;
         }
         
-        // Get all flights
+        ///<summary> Get all flights </summary>
         [HttpGet]
         public IEnumerable<Flight> Get()
         {
             return _database.Flights;
         }
 
-        // Get a specific flight by its ID
+        ///<summary> Get a specific flight by its ID </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<Flight>> Get(ushort id)
         {
@@ -36,7 +37,8 @@ namespace LOT_FlightManagementAPI.Controllers
             return flight; // Ok(flight) maybe
         }
 
-        // Add a new flight
+        ///<summary> Add a new flight. I realise that providing the id is redundant
+        /// but it somehow looks better to me this way.</summary>
         [HttpPost]
         public async Task<ActionResult<Flight>> Post([FromBody] Flight flight)
         {
@@ -50,7 +52,7 @@ namespace LOT_FlightManagementAPI.Controllers
             return flight;
         }
 
-        // Update/modify a flight
+        ///<summary> Update/modify a flight</summary>
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(ushort id, [FromBody] Flight modifiedFlight)
         {
@@ -72,15 +74,20 @@ namespace LOT_FlightManagementAPI.Controllers
 
             return Ok();
         }
-        private bool FlightExists(ushort id) => _database.Flights.Any(f => f.FlightId == id);
 
-        // Delete a flight from the database
+        /// <summary>Delete a flight from the database</summary>
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(ushort id)
         {
+            if (!FlightExists(id))
+                return NotFound();
             var flight = _database.Flights.SingleOrDefault( f => f.FlightId == id);
             _database.Flights.Remove(flight);
             _database.SaveChanges();
+            return Ok();
         }
+        
+        /// <summary>Check if the database has a record of a flight of a given ID.</summary>
+        public bool FlightExists(ushort id) => _database.Flights.Any(f => f.FlightId == id);
     }
 }
