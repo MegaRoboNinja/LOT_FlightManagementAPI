@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LOT_FlightManagementAPI", "LOT_FlightManagementAPI\LOT_FlightManagementAPI.csproj", "{9EECF411-0A6B-420A-828C-4C29782EFFC7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LOT_FlightManagement.UnitTests", "LOT_FlightManagement.UnitTests\LOT_FlightManagement.UnitTests.csproj", "{9DF69CC7-D8A3-4DF0-B806-EA3D5C3F0DDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{9EECF411-0A6B-420A-828C-4C29782EFFC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EECF411-0A6B-420A-828C-4C29782EFFC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EECF411-0A6B-420A-828C-4C29782EFFC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DF69CC7-D8A3-4DF0-B806-EA3D5C3F0DDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DF69CC7-D8A3-4DF0-B806-EA3D5C3F0DDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DF69CC7-D8A3-4DF0-B806-EA3D5C3F0DDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DF69CC7-D8A3-4DF0-B806-EA3D5C3F0DDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

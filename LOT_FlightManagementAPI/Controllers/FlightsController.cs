@@ -33,7 +33,7 @@ namespace LOT_FlightManagementAPI.Controllers
             {
                 return NotFound();
             }
-            return flight;
+            return flight; // Ok(flight) maybe
         }
 
         // Add a new flight
@@ -42,8 +42,8 @@ namespace LOT_FlightManagementAPI.Controllers
         {
             _database.Flights.Add(flight);
             await _database.SaveChangesAsync();
-            
-            return CreatedAtAction(nameof(Get), new {id = flight.FlightId}, flight);
+
+            return flight;
         }
 
         // Update/modify a flight
@@ -56,11 +56,11 @@ namespace LOT_FlightManagementAPI.Controllers
                 return BadRequest();
 
             // Check if the flight to be modified even exists
-            if (FlightExists(id))
+            if (!FlightExists(id))
                 return NotFound();
             
             // Modify the flight (something I found on stack)
-            _database.Entry(await _database.Flights.FirstOrDefaultAsync
+            _database.Entry(await _database.Flights.SingleOrDefaultAsync
                 (x => x.FlightId == id)).CurrentValues.SetValues(modifiedFlight);
 
             // save the changes
@@ -74,6 +74,9 @@ namespace LOT_FlightManagementAPI.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            var flight = _database.Flights.SingleOrDefault( f => f.FlightId == id);
+            _database.Flights.Remove(flight);
+            _database.SaveChanges();
         }
     }
 }
