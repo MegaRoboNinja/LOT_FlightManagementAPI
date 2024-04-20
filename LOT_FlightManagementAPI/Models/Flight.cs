@@ -8,7 +8,7 @@ public class Flight
     [Required]
     public UInt16 FlightId { get; private set; } // Had to add something in the FlightContext.cs to keep the setter private and get the Unit Tests to work
     [Required]
-    public UInt16 FlightNumber { get; }
+    public UInt16 FlightNumber { get; private set; }
     [Required]
     public DateTime DepartureDate { get; private set; }
     [Required] [MaxLength(30)] [MinLength(3)]
@@ -27,5 +27,28 @@ public class Flight
         Origin = origin;
         Destination = destination;
         AircraftType = aircraftType;
+    }
+
+    /// <summary>
+    /// Check if two flights are the same field by field.
+    /// </summary>
+    /// <param name="obj">The other flight</param>
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+
+        var other = (Flight)obj;
+        return FlightId == other.FlightId
+               && FlightNumber == other.FlightNumber
+               && DepartureDate == other.DepartureDate
+               && Destination == other.Destination
+               && AircraftType == other.AircraftType;
+    }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(FlightId, FlightNumber, DepartureDate, Destination, AircraftType);
     }
 }

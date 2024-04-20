@@ -40,6 +40,10 @@ namespace LOT_FlightManagementAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Flight>> Post([FromBody] Flight flight)
         {
+            // Make sure that the id is unique
+            if (_database.Flights.Any(other => other.FlightId == flight.FlightId))
+                return BadRequest("Flight with the same ID already exists");
+            
             _database.Flights.Add(flight);
             await _database.SaveChangesAsync();
 
@@ -48,7 +52,7 @@ namespace LOT_FlightManagementAPI.Controllers
 
         // Update/modify a flight
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(ushort id, [FromBody] Flight modifiedFlight)
+        public async Task<ActionResult> Put(ushort id, [FromBody] Flight modifiedFlight)
         {
             // Modification cannot change the flights id
             // (could lead to two flights having the same id)
