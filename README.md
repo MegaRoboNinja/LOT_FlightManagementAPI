@@ -11,3 +11,15 @@ System Zarządzania Lotami
 - Baza Danych oprawiona w **ORM Entity Framework**
 - **Walidacja danych wejściowych**
 
+Flight Management System
+-------------------------
+
+- **API for flight management**
+    * Adding flights
+    * Getting information about a flight given its ID
+    * Getting all flights from the database
+    * Updating data about a specific flights
+    * Removing a specific flight form the database
+- **10 Unit Tests** checking all paths of the above methods
+- A data base built in **ORM Entity Framework**
+- **Input data validation**
