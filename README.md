@@ -11,5 +11,3 @@ System Zarządzania Lotami
 - Baza Danych oprawiona w **ORM Entity Framework**
 - **Walidacja danych wejściowych**
 
-Projekt jest w fazie rozwoju...
-
